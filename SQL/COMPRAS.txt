@@ -1,0 +1,39 @@
+select 
+	a.nota_fornecedor as NF,
+	p.DataEmissao as Emissão,
+	p.pedido_compra,
+	p.DataPedido,
+	p.fornecedor as CodFornecedor,
+	p.FornecRazSoc,
+	a.qtde,
+	Enderecos.Bairro,
+	Municipios.Nome as Cidade,
+	Municipios.Estado,
+	sum(p.Total) as Total
+
+from  vFscNfEntrada a
+	join oViewRecebimento p on p.nota = a.nota AND p.linha = a.Linha
+	INNER JOIN Itenstab ON a.item = Itenstab.item 
+	INNER JOIN Itenstipo ON Itenstab.tipo = Itenstipo.Tipo
+	INNER JOIN Contas ON p.Fornecedor = Contas.ContaID
+	LEFT JOIN Enderecos ON Contas.ContaID = Enderecos.ContaID AND Enderecos.Cobranca <> 0
+	LEFT JOIN Municipios ON Enderecos.MunicipioID = Municipios.MunicipioID
+
+WHERE
+	p.DataEmissao  BETWEEN convert(date,'01.01.2023',103) AND convert(date,'31.12.2023',103) 
+	AND itenstipo.Descricao  in ('Matéria - Prima','Embalagem')
+
+group by 
+	a.nota_fornecedor,
+	a.Data,
+	p.DataEmissao,
+	p.pedido_compra,
+	p.DataPedido,
+	p.fornecedor,
+	p.FornecRazSoc,
+	a.qtde,
+	Enderecos.Bairro,
+	Municipios.Nome,
+	Municipios.Estado
+
+

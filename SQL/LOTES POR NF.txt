@@ -1,0 +1,10 @@
+SELECT 
+L.EstLoteID,
+L.Lote,
+L.Item,
+L.VencimentoLote
+
+FROM vvndFaturamento F
+INNER JOIN fscNFItensLote IL ON f.fscNFItensID = IL.fscNFItens
+INNER JOIN estLotes L ON IL.Lote = L.Lote AND F.ItemCod = L.Item 
+WHERE F.Nota='90427'

@@ -1,0 +1,14 @@
+SELECT 
+A.item, 
+A.descricao, 
+A.fscNcmID,
+A.ctbParametroItemID, 
+A.Categoria,
+CONCAT(A.tipo_item, ' - ', C.Descricao) Tipo_Origem, 
+CONCAT(A.tipo, ' - ', B.Descricao) Tipo_Item, 
+CONCAT(A.grupo1, ' - ', D.descricao) Grupo
+
+FROM Itenstab A
+LEFT JOIN Itenstipo B ON A.tipo = B.Tipo
+LEFT JOIN ItensOrigem C ON A.tipo_item = C.Codigo
+LEFT JOIN Grupos D ON A.grupo1 = D.grupo

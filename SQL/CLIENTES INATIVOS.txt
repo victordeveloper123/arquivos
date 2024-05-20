@@ -1,0 +1,7 @@
+SELECT c.ContaID, c.ContRazSoc, c.ContFant
+FROM Contas c
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM vvndlinhas l
+    WHERE c.ContaID = l.Cliente
+and ContCliente=1 and ContForn=0 and ContTransp=0)

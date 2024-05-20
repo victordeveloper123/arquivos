@@ -1,0 +1,25 @@
+SELECT
+    f.ClienteCod,
+	f.ClienteDesc,
+	f.uf,
+    ROUND(SUM(CASE WHEN YEAR(f.EMISSAO) = 2022 THEN f.Total ELSE 0 END), 2) AS total_2022,
+    ROUND(SUM(CASE WHEN YEAR(f.EMISSAO) = 2023 THEN f.Total ELSE 0 END), 2) AS total_2023
+FROM
+    vvndFaturamento f
+WHERE
+    f.venda = 1
+    AND f.UF <> 'EX'
+    AND f.EMISSAO BETWEEN CONVERT(DATE, '01.01.2022', 103) AND CONVERT(DATE, '31.01.2022', 103)
+    AND f.FamiliaDescricao NOT LIKE '%ZARB%'
+    AND ISNULL(f.Terceirizacao, 0) = 0
+GROUP BY
+    f.ClienteCod,
+	f.ClienteDesc,
+	f.uf
+ORDER BY
+    f.ClienteCod,
+	f.ClienteDesc,
+	f.uf
+
+
+

@@ -1,0 +1,31 @@
+SELECT distinct
+s.ContaID,
+S.ContRazSoc AS Razaosocial,
+S.ContFant AS Nomefantasia,
+f.Descricao as atividade,
+e.Descricao as segmento,
+municipios.nome as Municipio,
+Municipios.Estado,
+s.Representante
+FROM CONTAS S
+left join ContasAtividades f on f.Atividade  = s.atividade
+left join contSegmentos e on e.SegmentoID = s.Segmento
+LEFT JOIN Enderecos ON s.ContaID = Enderecos.ContaID AND Enderecos.Cobranca <> 0
+LEFT JOIN Municipios ON Enderecos.MunicipioID = Municipios.MunicipioID
+where s.ContaID in ('1455',
+'1780',
+'1782',
+'2341',
+'2469',
+'4986',
+'5118',
+'6252',
+'6373',
+'6520',
+'6526',
+'6532',
+'6541',
+'6565',
+'6588',
+'6606',
+'6616')
